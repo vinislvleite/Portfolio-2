@@ -2,14 +2,9 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    z-index: 1000;
     padding: 15px 50px;
     background-color: rgba(40, 44, 52, 0.85);
-    box-sizing: border-box;
 }
 
 .button-nav {
