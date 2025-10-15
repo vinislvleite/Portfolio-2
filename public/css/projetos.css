@@ -32,6 +32,12 @@ h1 {
     font-family: 'Roboto Mono', monospace;
 }
 
+h2 {
+    font-family: "Roboto", sans-serif;
+    color: #e6e6e6;
+    padding-top: 30px;
+}
+
 .projetos a {
     color:  #c8c8c8;
     text-decoration: none;
