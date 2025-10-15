@@ -8,6 +8,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    scrollbar-gutter: stable;
+    overflow-y: hidden;
 }
 
 main {

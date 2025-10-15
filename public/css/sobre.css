@@ -10,6 +10,8 @@ body {
     font-family: "Roboto", sans-serif;
     background-color: #282c34;
     color: #e6e6e6;
+    scrollbar-gutter: stable;
+    overflow-y: hidden;
 }
 
 main.container {
@@ -26,7 +28,6 @@ main.container {
   max-width: 900px;
   width: 100%;
   text-align: center;
-  padding-top: 0px;
   padding-bottom: 80px;
   margin: auto;
 }

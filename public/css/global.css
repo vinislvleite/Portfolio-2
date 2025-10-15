@@ -3,9 +3,10 @@
     justify-content: flex-end;
     align-items: center;
     width: 100%;
-    padding: 15px 50px;
+    padding: 15px 40px;
     background-color: rgba(40, 44, 52, 0.85);
     box-sizing: border-box;
+    line-height: 1.2;
 }
 
 .button-nav {
@@ -23,6 +24,10 @@
 
 .button-nav + .button-nav::before {
     content: "|";
-    margin: 0 1em; 
+    margin: 0 12px;; 
     color: #ffffff;
+}
+
+.navbar .button-nav {
+    white-space: nowrap; 
 }

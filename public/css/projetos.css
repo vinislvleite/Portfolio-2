@@ -8,6 +8,7 @@ body {
     flex-direction: column;
     scroll-behavior: smooth;
     scroll-padding-top: 100px;
+    scrollbar-gutter: stable;
 }
 
 main {
