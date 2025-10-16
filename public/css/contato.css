@@ -60,7 +60,7 @@ h2 {
     height: 40px;
     margin-right: 15px;
     flex-shrink: 0;
-    }
+}
 
 .icons img {
     width: 100%;
@@ -84,4 +84,14 @@ p {
 
 .contato-item p a:hover {
     color: #c261fb;
+}
+
+@media screen and (max-width: 1920px) and (min-width: 1366px) {
+    main {
+        padding-top: 0px;
+    }
+
+    .container {
+        margin-top: 30px;
+    }
 }
