@@ -1,0 +1,201 @@
+/* dashboard.css - Versão simplificada sem acesso rápido */
+body {
+    background-color: #282c34;
+    color: #e6e6e6;
+    font-family: "Roboto", sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 40px;
+    color: #c261fb;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 2.5rem;
+}
+
+h2 {
+    color: #c261fb;
+    margin-bottom: 25px;
+    font-family: 'Roboto Mono', monospace;
+    border-bottom: 2px solid #c261fb;
+    padding-bottom: 10px;
+}
+
+/* Grid de Estatísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, rgba(194, 97, 251, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(194, 97, 251, 0.3);
+    border-radius: 12px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #c261fb;
+    box-shadow: 0 10px 30px rgba(194, 97, 251, 0.2);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    background: rgba(194, 97, 251, 0.1);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #c261fb;
+}
+
+.stat-content h3 {
+    margin: 0 0 10px 0;
+    color: #c8c8c8;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #c261fb;
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* Seção de Tecnologias */
+.tech-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.tech-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.tech-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.tech-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.tech-rank {
+    background: #c261fb;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.tech-name {
+    flex: 1;
+    font-weight: 500;
+    color: #e6e6e6;
+}
+
+.tech-count {
+    background: rgba(194, 97, 251, 0.2);
+    color: #c261fb;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.tech-bar {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.tech-progress {
+    background: linear-gradient(90deg, #c261fb, #a845e6);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.8s ease;
+}
+
+.no-tech {
+    text-align: center;
+    color: #c8c8c8;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .tech-item {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .tech-bar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+}

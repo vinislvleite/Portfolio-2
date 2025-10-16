@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Vinícius Leite</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+    
+    <div class="container">
+        <h1>Dashboard do Portfólio:</h1>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><img src="/images/student-svgrepo-com.svg" alt="Icon disciplina" height="60" width="60"></div>
+                <div class="stat-content">
+                    <h3>Total de Disciplinas</h3>
+                    <p class="stat-number"><%= totalDisciplinas %></p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><img src="/images/rocket-svgrepo-com.svg" alt="Icon disciplina" height="60" width="60"></div>
+                <div class="stat-content">
+                    <h3>Projetos Concluídos</h3>
+                    <p class="stat-number"><%= projetosConcluidos %></p>
+                </div>
+            </div>
+        </div>
+        <div class="tech-section">
+            <h2>Tecnologias Mais Usadas</h2>
+            <div class="tech-list">
+                <% if (tecnologias && tecnologias.length > 0) { %>
+                    <% tecnologias.forEach((tech, index) => { %>
+                        <div class="tech-item">
+                            <span class="tech-rank">#<%= index + 1 %></span>
+                            <span class="tech-name"><%= tech.nome %></span>
+                            <span class="tech-count"><%= tech.count %> projeto<%= tech.count > 1 ? 's' : '' %></span>
+                            <div class="tech-bar">
+                                <% 
+                                const maxCount = Math.max(...tecnologias.map(t => t.count));
+                                const widthPercent = (tech.count / maxCount) * 100;
+                                %>
+                                <div class="tech-progress" style="width: <%= widthPercent %>%;"></div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="no-tech">Nenhuma tecnologia cadastrada nos projetos.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

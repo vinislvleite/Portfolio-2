@@ -1,0 +1,115 @@
+body {
+    background-color: #282c34;
+    color: #e6e6e6;
+    font-family: "Roboto", sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 30px;
+    color: #c261fb;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    text-align: center;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.btn-add {
+    background-color: #c261fb;
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-add:hover {
+    background-color: #a845e6;
+}
+
+.disciplinas-list {
+    width: 100%;
+}
+
+.disciplina-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.disciplina-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.disciplina-nome {
+    margin: 0;
+    font-size: 18px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.disciplina-botoes {
+    display: flex;
+    gap: 10px;
+}
+
+.disciplina-botoes a, 
+.disciplina-botoes button {
+    color: #c8c8c8;
+    text-decoration: none;
+    background: none;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+
+.disciplina-botoes a:hover {
+    background-color: #c261fb;
+    border-color: #c261fb;
+    color: #fff;
+}
+
+.disciplina-botoes button:hover {
+    background-color: #ff4d4d;
+    border-color: #ff4d4d;
+    color: #fff;
+}
+
+.no-disciplinas {
+    text-align: center;
+    margin-top: 30px;
+}

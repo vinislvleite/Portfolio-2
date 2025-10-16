@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Disciplina</title>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <h1>Editar Disciplina</h1>
+    <form action="/disciplinas/<%= disciplina.id %>?_method=PUT" method="POST">
+        <label for="nome">Novo Nome:</label>
+        <input type="text" id="nome" name="nome" value="<%= disciplina.nome %>" required>
+        <button type="submit">Atualizar</button>
+    </form>
+    <br>
+    <a href="/disciplinas">Cancelar e Voltar</a>
+</body>
+</html>

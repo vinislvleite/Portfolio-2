@@ -2,10 +2,36 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disciplinas | Vinícius Leite</title>
+    <link rel="stylesheet" href="css/disciplinas.css">
 </head>
 <body>
+    <%- include('partials/header') %>
     
+    <div class="container">
+        <h1>Minhas Disciplinas</h1>
+        
+        <div class="btn-container">
+            <a href="/disciplinas/nova" class="btn-add">Adicionar Nova Disciplina</a>
+        </div>
+
+        <div class="disciplinas-list">
+            <% if (disciplinas && disciplinas.length > 0) { %>
+                <% disciplinas.forEach(disciplina => { %>
+                    <div class="disciplina-item">
+                        <p class="disciplina-nome"><%= disciplina.nome %></p>
+                        <div class="disciplina-botoes">
+                            <a href="/disciplinas/<%= disciplina.id %>/editar">Editar</a>
+                            <form action="/disciplinas/<%= disciplina.id %>?_method=DELETE" method="POST">
+                                <button type="submit">Excluir</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-disciplinas">Nenhuma disciplina cadastrada.</p>
+            <% } %>
+        </div>
+    </div>
 </body>
 </html>
