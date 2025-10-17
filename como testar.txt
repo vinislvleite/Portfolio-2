@@ -1,0 +1,79 @@
+Adicionar uma Disciplina para Teste
+
+Use a rota POST que já testamos para criar uma disciplina. Envie um POST para http://localhost:3000/disciplinas/nova com o JSON:
+JSON
+
+{
+  "nome": "Ciência de Dados"
+}
+
+Se tudo der certo, você terá uma disciplina com id: 1 no seu arquivo disciplinas.json. Agora podemos testar as outras rotas usando esse id.
+
+Passo 1: Testando o GET (Buscar as Disciplinas)
+
+Você tem duas rotas GET: uma para listar todas e uma para pegar uma específica para edição.
+
+A Buscar TODAS as disciplinas
+
+Esta é a mais simples.
+
+    Método: GET
+
+    URL: http://localhost:3000/disciplinas
+
+    Body: Nenhum (pode deixar na aba "None" ou "JSON" com o campo vazio).
+
+Resultado Esperado: Como essa rota renderiza uma página EJS (res.render(...)), você não verá um JSON como resposta. Em vez disso, o Thunder Client mostrará o código HTML completo da sua página de listagem de disciplinas. Para ver a página formatada, o melhor é simplesmente abrir essa URL no seu navegador.
+
+B Buscar UMA disciplina (para a página de edição)
+
+    Método: GET
+
+    URL: http://localhost:3000/disciplinas/1/editar (estamos buscando a disciplina com id: 1).
+
+    Body: Nenhum.
+
+Resultado Esperado: Similar ao anterior, o resultado será o código HTML da sua página de formulário, com os campos já preenchidos com os dados da disciplina "Ciência de Dados".
+
+Passo 2: Testando o PUT (Atualizar uma Disciplina)
+
+Agora vamos mudar o nome da disciplina com id: 1 de "Ciência de Dados" para "Inteligência Artificial".
+
+    Método: PUT
+
+    URL: http://localhost:3000/disciplinas/1 (note que o /editar não está na URL do PUT).
+
+    Body: Vá para a aba JSON e adicione o novo nome que você quer dar à disciplina:
+    JSON
+
+    {
+      "nome": "Inteligência Artificial"
+    }
+
+    (Você também poderia usar a aba "Form-encode" se preferir, pois seu servidor está pronto para ambos).
+
+Resultado Esperado: Seu código para a rota PUT termina com res.redirect('/disciplinas'). Em um API Client como o Thunder Client, um redirecionamento é interpretado como uma resposta com status 302 Found. O cliente não vai te mostrar a página final, apenas te avisará que a requisição foi bem-sucedida e que o servidor te mandou para outro lugar.
+
+Como verificar se funcionou?
+
+    Opção 1: Olhe o arquivo disciplinas.json. O nome da disciplina com id: 1 deve ter mudado.
+
+    Opção 2: Abra http://localhost:3000/disciplinas no seu navegador. Você verá a disciplina com o nome atualizado "Inteligência Artificial".
+
+Passo 3: Testando o DELETE (Apagar uma Disciplina)
+
+Finalmente, vamos apagar a disciplina que acabamos de renomear.
+
+    Método: DELETE
+
+    URL: http://localhost:3000/disciplinas/1
+
+    Body: Nenhum.
+
+Resultado Esperado: Assim como no PUT, sua rota DELETE termina com res.redirect('/disciplinas'). Portanto, você receberá uma resposta de status 302 Found.
+
+Como verificar se funcionou?
+
+    Opção 1: O arquivo disciplinas.json agora deve conter um array vazio [] ou estar sem o objeto de id: 1.
+
+    Opção 2: Atualize a página http://localhost:3000/disciplinas no seu navegador. A disciplina "Inteligência Artificial" não deverá mais aparecer na lista.
