@@ -43,7 +43,28 @@ const writeData = (data) => {
 app.get("/", (req, res) => { res.render("main"); });
 app.get("/sobre", (req, res) => { res.render("sobre"); });
 app.get("/projetos", (req, res) => {
-  const projetos = [];
+  const projetos = [
+  {
+    titulo: "Site para análise de dados de exportação e importação do estado de SP",
+    descricao: "Desenvolvi um site com gráficos, filtros e caixas de pesquisa para dados públicos de importação e exportação.",
+    solucao: "Utilizei Python para a limpeza e preparação dos dados, criando o backend e os filtros para o frontend.",
+    link: "https://github.com/Kernel-Panic-FatecSjc/KernelPanic-1DSM-API",
+    tecnologias: ["Python", "JavaScript", "HTML", "CSS", "Pandas", "Flask","MySQL"],
+    imagens: [
+      "images/Pagina inicial projeto 1.png", "images/Sobre projeto 1.png", "images/Insights projeto 1.png", "images/Gráficos projeto 1.png", "images/Top 5 projeto 1.png",
+    ],
+  },
+  {
+    titulo: "Aplicação web CRM para centralizar e padronizar processos administrativos, comerciais e operacionais da Newe Log",
+    descricao: "Este projeto visa desenvolver uma plataforma única que centralize processos administrativos, comerciais e operacionais da Newe Log.",
+    solucao: "Utilizei React para criação das páginas da aplicação web, além de rotas e mockups para as páginas.",
+    link: "https://github.com/Kernel-Panic-FatecSjc/KernelPanic-2DSM-API",
+    tecnologias: ["React", "JavaScript", "Node.js", "CSS", "Express", "MySQL"],
+    imagens: [
+      "images/Interações projeto2.png", "images/Vendedores projeto 2.png", "images/Cadastro projeto 2.png", "images/Gestão projeto 2.png", "images/Funil projeto 2.png", "images/Agendamento projeto 2.png", "images/Graficos projeto 2.png",
+    ],
+  },
+];
   res.render("projetos", { projetos });
 });
 app.get("/contato",(req,res)=> { res.render("contato") });
@@ -70,7 +91,6 @@ app.get("/dashboard", (req, res) => {
 
 app.get('/disciplinas', (req, res) => {
     try {
-        console.log('--- ROTA GET /disciplinas ACIONADA ---');
         const disciplinas = readData();
         console.log(`${disciplinas.length} disciplinas encontradas.`);
         res.render('disciplinas', { disciplinas: disciplinas });
@@ -85,7 +105,6 @@ app.get('/disciplinas/nova', (req, res) => {
 
 app.post('/disciplinas/nova', upload.none(), (req, res) => {
     try {
-        console.log('--- ROTA POST /disciplinas/nova ACIONADA ---');
         console.log('Body recebido:', req.body);
         
         const disciplinas = readData();
@@ -111,7 +130,6 @@ app.post('/disciplinas/nova', upload.none(), (req, res) => {
 
 app.get('/disciplinas/:id/editar', (req, res) => {
     try {
-        console.log('--- ROTA GET /disciplinas/:id/editar ACIONADA ---');
         const id = parseInt(req.params.id);
         console.log(`Buscando disciplina com ID: ${id}`);
 
@@ -133,7 +151,6 @@ app.get('/disciplinas/:id/editar', (req, res) => {
 
 app.put('/disciplinas/:id', (req, res) => {
     try {
-        console.log('--- ROTA PUT /disciplinas/:id ACIONADA ---');
         console.log('ID recebido nos parâmetros:', req.params.id);
         console.log('Corpo (body) da requisição recebido:', req.body);
 
@@ -161,7 +178,6 @@ app.put('/disciplinas/:id', (req, res) => {
 
 app.delete('/disciplinas/:id', (req, res) => {
     try {
-        console.log('--- ROTA DELETE /disciplinas/:id ACIONADA ---');
         const id = parseInt(req.params.id);
         console.log(`Tentando deletar disciplina com ID: ${id}`);
 
