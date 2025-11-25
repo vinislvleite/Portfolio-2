@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
-import methodOverride from 'method-override';
-import fs from 'fs';
-import multer from 'multer';
+import methodOverride from "method-override";
+import multer from "multer";
+import { sequelize, Disciplina } from "./database/index.js";
 
 const app = express();
 const PORT = 3000;
@@ -14,193 +14,149 @@ app.set("views", path.join(process.cwd(), "views"));
 app.use(express.static(path.join(process.cwd(), "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 
-const dataPath = path.join(process.cwd(), 'disciplinas.json');
 
-const readData = () => {
-    try {
-        const data = fs.readFileSync(dataPath, 'utf8');
-        return JSON.parse(data);
-    } catch (error) {
-        if (error.code === 'ENOENT') {
-            return [];
-        }
-        console.error("Erro ao ler o arquivo de dados:", error);
-        throw error;
-    }
-};
+app.get("/", (req, res) => res.render("main"));
+app.get("/sobre", (req, res) => res.render("sobre"));
 
-const writeData = (data) => {
-    try {
-        fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-    } catch (error) {
-        console.error("Erro ao salvar os dados:", error);
-        throw error;
-    }
-};
-
-app.get("/", (req, res) => { res.render("main"); });
-app.get("/sobre", (req, res) => { res.render("sobre"); });
 app.get("/projetos", (req, res) => {
   const projetos = [
-  {
-    titulo: "Site para análise de dados de exportação e importação do estado de SP",
-    descricao: "Desenvolvi um site com gráficos, filtros e caixas de pesquisa para dados públicos de importação e exportação.",
-    solucao: "Utilizei Python para a limpeza e preparação dos dados, criando o backend e os filtros para o frontend.",
-    link: "https://github.com/Kernel-Panic-FatecSjc/KernelPanic-1DSM-API",
-    tecnologias: ["Python", "JavaScript", "HTML", "CSS", "Pandas", "Flask","MySQL"],
-    imagens: [
-      "images/Pagina inicial projeto 1.png", "images/Sobre projeto 1.png", "images/Insights projeto 1.png", "images/Gráficos projeto 1.png", "images/Top 5 projeto 1.png",
-    ],
-  },
-  {
-    titulo: "Aplicação web CRM para centralizar e padronizar processos administrativos, comerciais e operacionais da Newe Log",
-    descricao: "Este projeto visa desenvolver uma plataforma única que centralize processos administrativos, comerciais e operacionais da Newe Log.",
-    solucao: "Utilizei React para criação das páginas da aplicação web, além de rotas e mockups para as páginas.",
-    link: "https://github.com/Kernel-Panic-FatecSjc/KernelPanic-2DSM-API",
-    tecnologias: ["React", "JavaScript", "Node.js", "CSS", "Express", "MySQL"],
-    imagens: [
-      "images/Interações projeto2.png", "images/Vendedores projeto 2.png", "images/Cadastro projeto 2.png", "images/Gestão projeto 2.png", "images/Funil projeto 2.png", "images/Agendamento projeto 2.png", "images/Graficos projeto 2.png",
-    ],
-  },
-];
+    {
+      titulo: "Site para análise de dados de importação e exportação de SP",
+      descricao: "Site com gráficos e filtros usando Python + Flask.",
+      solucao: "Limpeza de dados com Pandas e backend em Flask.",
+      link: "https://github.com/Kernel-Panic-FatecSjc/KernelPanic-1DSM-API",
+      tecnologias: ["Python", "JavaScript", "HTML", "CSS", "Pandas", "Flask", "MySQL"],
+      imagens: [
+        "images/Pagina inicial projeto 1.png",
+        "images/Sobre projeto 1.png",
+        "images/Insights projeto 1.png",
+        "images/Gráficos projeto 1.png",
+        "images/Top 5 projeto 1.png",
+      ],
+    },
+    {
+      titulo: "CRM web para Newe Log",
+      descricao: "CRM para centralizar processos comerciais e operacionais.",
+      solucao: "Frontend em React, rotas e mockups.",
+      link: "https://github.com/Kernel-Panic-FatecSjc/KernelPanic-2DSM-API",
+      tecnologias: ["React", "JavaScript", "CSS", "Express", "MySQL"],
+      imagens: [
+        "images/Interações projeto2.png",
+        "images/Vendedores projeto 2.png",
+        "images/Cadastro projeto 2.png",
+        "images/Gestão projeto 2.png",
+        "images/Funil projeto 2.png",
+        "images/Agendamento projeto 2.png",
+        "images/Graficos projeto 2.png",
+      ],
+    },
+  ];
+
   res.render("projetos", { projetos });
 });
-app.get("/contato",(req,res)=> { res.render("contato") });
-app.get("/dashboard", (req, res) => {
-    try {
-        const projetosConcluidos = 1;
-        const tecnologiasProjetoConcluido = [ 
-          { nome: "Python", count: 1 }, 
-          { nome: "JavaScript", count: 2 }, 
-          { nome: "HTML", count: 2 }, 
-          { nome: "CSS", count: 2 }, 
-          { nome: "Pandas", count: 1 }, 
-          { nome: "Flask", count: 1 }, 
-          { nome: "React", count: 1 },
-         ];
-        const tecnologiasOrdenadas = tecnologiasProjetoConcluido.sort((a, b) => a.nome.localeCompare(b.nome)).slice(0, 5);
-        const disciplinas = readData();
-        res.render("dashboard", { totalDisciplinas: disciplinas.length, projetosConcluidos: projetosConcluidos, tecnologias: tecnologiasOrdenadas });
-    } catch (error) {
-        console.error("Erro no dashboard:", error);
-        res.render("dashboard", { totalDisciplinas: 0, projetosConcluidos: 1, tecnologias: [] });
-    }
+
+app.get("/contato", (req, res) => res.render("contato"));
+
+app.get("/dashboard", async (req, res) => {
+  try {
+    const totalDisciplinas = await Disciplina.count();
+
+    const projetosConcluidos = 1;
+
+    const tecnologiasProjetoConcluido = [
+      { nome: "Python", count: 1 },
+      { nome: "JavaScript", count: 2 },
+      { nome: "HTML", count: 2 },
+      { nome: "CSS", count: 2 },
+      { nome: "Pandas", count: 1 },
+      { nome: "Flask", count: 1 },
+      { nome: "React", count: 1 },
+    ];
+
+    const tecnologiasOrdenadas = tecnologiasProjetoConcluido
+      .sort((a, b) => a.nome.localeCompare(b.nome))
+      .slice(0, 5);
+
+    res.render("dashboard", {
+      totalDisciplinas,
+      projetosConcluidos,
+      tecnologias: tecnologiasOrdenadas,
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.render("dashboard", {
+      totalDisciplinas: 0,
+      projetosConcluidos: 1,
+      tecnologias: [],
+    });
+  }
 });
 
-app.get('/disciplinas', (req, res) => {
-    try {
-        const disciplinas = readData();
-        console.log(`${disciplinas.length} disciplinas encontradas.`);
-        res.render('disciplinas', { disciplinas: disciplinas });
-    } catch (error) {
-        res.status(500).send("Erro ao buscar as disciplinas.");
-    }
+app.get("/disciplinas", async (req, res) => {
+  const disciplinas = await Disciplina.findAll();
+  res.render("disciplinas", { disciplinas });
 });
 
-app.get('/disciplinas/nova', (req, res) => {
-    res.render('novadisciplinas', { editar: false, disciplina: null });
+app.get("/disciplinas/nova", (req, res) => {
+  res.render("novadisciplinas", { editar: false, disciplina: null });
 });
 
-app.post('/disciplinas/nova', upload.none(), (req, res) => {
-    try {
-        console.log('Body recebido:', req.body);
-        
-        const disciplinas = readData();
-        const nextId = disciplinas.length > 0 ? Math.max(...disciplinas.map(d => d.id)) + 1 : 1;
-        const nomeDisciplina = req.body.nome?.trim();
+app.post("/disciplinas/nova", upload.none(), async (req, res) => {
+  const nome = req.body.nome?.trim();
 
-        if (!nomeDisciplina) {
-            console.log('Nenhum nome recebido');
-            return res.status(400).render('novadisciplinas', { editar: false, disciplina: null, error: 'Nome da disciplina é obrigatório' });
-        }
+  if (!nome) {
+    return res.status(400).render("novadisciplinas", {
+      editar: false,
+      disciplina: null,
+      error: "O nome da disciplina é obrigatório",
+    });
+  }
 
-        const novaDisciplina = { id: nextId, nome: nomeDisciplina };
-        disciplinas.push(novaDisciplina);
-        writeData(disciplinas);
-        console.log('Disciplina salva:', novaDisciplina);
-
-        res.redirect('/disciplinas');
-
-    } catch (error) {
-        res.status(500).send("Erro ao criar a disciplina.");
-    }
+  await Disciplina.create({ nome });
+  res.redirect("/disciplinas");
 });
 
-app.get('/disciplinas/:id/editar', (req, res) => {
-    try {
-        const id = parseInt(req.params.id);
-        console.log(`Buscando disciplina com ID: ${id}`);
+app.get("/disciplinas/:id/editar", async (req, res) => {
+  const disciplina = await Disciplina.findByPk(req.params.id);
 
-        const disciplinas = readData();
-        const disciplina = disciplinas.find(d => d.id === id);
+  if (!disciplina) return res.status(404).send("Disciplina não encontrada");
 
-        if (disciplina) {
-            console.log('Disciplina encontrada:', disciplina);
-            res.render('novadisciplinas', { editar: true, disciplina: disciplina });
-        } else {
-            console.log(`Disciplina com ID ${id} não encontrada.`);
-            res.status(404).send("Disciplina não encontrada");
-        }
-    } catch (error) {
-        console.error('ERRO na rota GET de edição:', error);
-        res.status(500).send("Erro interno ao buscar disciplina para edição.");
-    }
+  res.render("novadisciplinas", { editar: true, disciplina });
 });
 
-app.put('/disciplinas/:id', (req, res) => {
-    try {
-        console.log('ID recebido nos parâmetros:', req.params.id);
-        console.log('Corpo (body) da requisição recebido:', req.body);
+app.put("/disciplinas/:id", async (req, res) => {
+  const disciplina = await Disciplina.findByPk(req.params.id);
 
-        const disciplinas = readData();
-        const id = parseInt(req.params.id);
-        const disciplinaIndex = disciplinas.findIndex(d => d.id === id);
-        
-        console.log(`Índice da disciplina encontrado no array: ${disciplinaIndex}`);
+  if (!disciplina) return res.status(404).send("Disciplina não encontrada");
 
-        if (disciplinaIndex !== -1 && req.body.nome && req.body.nome.trim() !== '') {
-            console.log('Atualizando a disciplina...');
-            disciplinas[disciplinaIndex].nome = req.body.nome.trim();
-            writeData(disciplinas);
-            res.redirect('/disciplinas');
-        } else {
-            console.log('Não foi possível atualizar.');
-            const disciplina = disciplinas.find(d => d.id === id);
-            res.status(400).render('novadisciplinas', { editar: true, disciplina: disciplina, error: 'Nome da disciplina é obrigatório' });
-        }
-    } catch (error) {
-        console.error('ERRO na rota PUT:', error);
-        res.status(500).send('Erro interno ao atualizar disciplina');
-    }
+  const nome = req.body.nome?.trim();
+  if (!nome) {
+    return res.status(400).render("novadisciplinas", {
+      editar: true,
+      disciplina,
+      error: "O nome da disciplina é obrigatório",
+    });
+  }
+
+  disciplina.nome = nome;
+  await disciplina.save();
+
+  res.redirect("/disciplinas");
 });
 
-app.delete('/disciplinas/:id', (req, res) => {
-    try {
-        const id = parseInt(req.params.id);
-        console.log(`Tentando deletar disciplina com ID: ${id}`);
+app.delete("/disciplinas/:id", async (req, res) => {
+  const disciplina = await Disciplina.findByPk(req.params.id);
 
-        let disciplinas = readData();
-        const totalAntes = disciplinas.length;
-        
-        const disciplinasFiltradas = disciplinas.filter(d => d.id !== id);
-        const totalDepois = disciplinasFiltradas.length;
+  if (!disciplina) return res.status(404).send("Disciplina não encontrada");
 
-        if (totalAntes > totalDepois) {
-            writeData(disciplinasFiltradas);
-            console.log(`Disciplina com ID ${id} deletada com sucesso.`);
-        } else {
-            console.log(`Nenhuma disciplina com ID ${id} foi encontrada para deletar.`);
-        }
+  await disciplina.destroy();
 
-        res.redirect('/disciplinas');
-    } catch (error) {
-        console.error('ERRO na rota DELETE:', error);
-        res.status(500).send('Erro interno ao deletar disciplina');
-    }
+  res.redirect("/disciplinas");
 });
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
