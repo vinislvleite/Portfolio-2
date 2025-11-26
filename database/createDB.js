@@ -4,7 +4,7 @@ export async function createDatabaseIfNotExists() {
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "feluvi0511"
+    password: ""
   });
 
   await connection.query(`CREATE DATABASE IF NOT EXISTS portfolio`);
