@@ -1,0 +1,4 @@
+Como usar:
+use npm install e npm run dev
+e coloque suas credencias do banco de dados:
+no createDB.js, troque o usuario e a senha

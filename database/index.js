@@ -81,7 +81,7 @@ const seedDisciplinas = async () => {
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log("Conectado ao MySQL com sucesso!");
+    console.log("Conectado ao MySQL!");
 
     await sequelize.sync({ alter: true });
     console.log("Banco sincronizado!");
